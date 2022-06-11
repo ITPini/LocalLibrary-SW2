@@ -1,30 +1,48 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
+const express = require('express');
+const createError = require('http-errors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
+// Routes
+const indexRouter = require('./routes/index');
+const catalogRouter = require('./routes/catalog');
+const usersRouter = require('./routes/users');
+
+// Application routes
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
+app.use('/', indexRouter);
+app.use('/catalog', catalogRouter);
+app.use('/users', usersRouter);
 
-app.get("/", (req, res) => {
-    res.render("index"); // index refers to index.ejs
+
+// Catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next(createError(404));
+  });
+  
+  // Error handler
+  app.use(function(err, req, res, next) {
+    // Set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+    // Render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 app.listen(3000, () => {
-    console.log("server started on port 3000");
+    console.log("Server started on port 3000");
 });
 
-app.post("/login", (req, res) => {
-    const { name, password } = req.body;
-  
-    if (name === "admin" && password === "admin") {
-      res.render("login/success", {
-        username: name,
-      });
-    } else {
-      res.render("login/failure");
-    }
-  });
+module.exports = app;
