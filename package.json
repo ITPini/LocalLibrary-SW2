@@ -1,0 +1,42 @@
+{
+  "name": "locallibrary-sw2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "dev": "nodemon app.js -e js,ejs,css",
+    "newStart": "node ./bin/www",
+    "devStart": "nodemon ./bin/www",
+    "serverStart": "DEBUG=express-locallibrary-tutorial:* npm run devstart"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITPini/LocalLibrary-SW2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ITPini/LocalLibrary-SW2/issues"
+  },
+  "homepage": "https://github.com/ITPini/LocalLibrary-SW2#readme",
+  "dependencies": {
+    "async": "^3.2.4",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.1",
+    "helmet": "^5.1.0",
+    "http-errors": "^2.0.0",
+    "luxon": "^2.4.0",
+    "mongoose": "^6.2.9",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
