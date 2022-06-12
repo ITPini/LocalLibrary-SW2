@@ -107,7 +107,7 @@ exports.book_create_post = [
     body('title', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('author', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('isbn', 'ISBN must not be empty').trim().isLength({ min: 1 }).escape(),
+    body('isbn', 'ISBN be at least 10-13 digits').trim().isISBN().escape(),
     body('genre.*').escape(),
 
     // Process request after validation and sanitization.
@@ -267,7 +267,7 @@ exports.book_update_post = [
     body('title', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('author', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('isbn', 'ISBN must not be empty').trim().isLength({ min: 1 }).escape(),
+    body('isbn', 'ISBN be at least 10-13 digits').trim().isISBN().escape(),
     body('genre.*').escape(),
 
     // Process request after validation and sanitization.
