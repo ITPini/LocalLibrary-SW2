@@ -1,28 +1,32 @@
-var express = require('express');
-var createError = require('http-errors');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var compression = require('compression');
-var helmet = require('helmet');
+const express = require('express');
+const createError = require('http-errors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const compression = require('compression');
+const helmet = require('helmet');
+
+require('dotenv').config({ path: 'process.env' });
 
 // Routes
-var indexRouter = require('./routes/index');
-var catalogRouter = require('./routes/catalog');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const catalogRouter = require('./routes/catalog');
+const usersRouter = require('./routes/users');
 
 // Application routes
-var app = express();
+const app = express();
 
 app.use(helmet());
 
 // Import mongoose
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const mongoDB = process.env.MONGODB_URI;
+mongoose.set("strictQuery", false);
 
-var mongoDB = 'mongodb+srv://pini:fns83ydg@cluster0.o32ao.mongodb.net/local_library?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true }, {useUnifiedTopology: true});
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +40,7 @@ app.use(cookieParser());
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/resources/images', express.static(path.join(__dirname, 'resources/images')));
 
 app.use('/', indexRouter);
 app.use('/catalog', catalogRouter);
@@ -46,7 +51,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
   
-  // Error handler
+// Error handler
 app.use(function(err, req, res, next) {
   // Set locals, only providing error in development
   res.locals.message = err.message;

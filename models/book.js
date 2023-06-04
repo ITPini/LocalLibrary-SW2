@@ -1,13 +1,13 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var BookSchema = new Schema({
+const BookSchema = new Schema({
     title: {type: String, required: true, maxLength: 100},
-    author: {type: Schema.Types.ObjectId, ref: 'Author', required: true},
+    author: { type: Schema.ObjectId, ref: "Author", required: true },
     summary: {type: String, maxLength: 1000},
     isbn: {type: String, required: true, maxLength: 13}, // Room for ISBN-13
-    genre: [{type: Schema.Types.ObjectId, ref: 'Genre', required: true, maxLength: 50}],
+    genre: [{ type: Schema.ObjectId, ref: "Genre" }],
 });
 
 // Generate url for book    

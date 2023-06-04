@@ -3,6 +3,8 @@ extends layout
 block content
 
   h1 Author: #{author.name}
+  img(src="/" + author.image_path, style="max-width: 200px; max-height: 200px")
+  hr
   p #{author.date_of_birth} - #{author.date_of_death}
 
   div(style='margin-left:20px;margin-top:20px')

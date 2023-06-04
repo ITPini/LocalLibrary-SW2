@@ -1,31 +1,24 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const { DateTime } = require("luxon");  //for date handling
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var AuthorSchema = new Schema({
+const AuthorSchema = new Schema({
     first_name: {type: String, required: true, maxLength: 100},
     family_name: {type: String, required: true, maxLength: 100},
     date_of_birth: {type: Date},
-    date_of_death: {type: Date}
+    date_of_death: {type: Date},
+    image_path: {type: String}
 });
 
 // Generate full name of first_name and family_name
-AuthorSchema.virtual('name').get(function() {
-    var fullname = '';
-    if (this.first_name && this.family_name) {
-        fullname = this.first_name + ' ' + this.family_name;
-    }
-    // In case of error
-    if (!this.first_name && !this.family_name) {
-        fullname = '';
-    }
-    return fullname;
+AuthorSchema.virtual("name").get(function() {
+    return this.family_name + ", " + this.first_name;
 });
 
 // Generate life span of date of birth and death
 AuthorSchema.virtual('lifespan').get(function() {
-    var lifetime_string = '';
+    let lifetime_string = '';
     if (this.date_of_birth) {
         lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
     }

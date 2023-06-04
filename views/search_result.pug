@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Search Results
+
+    h2 Books:
+    each book in books
+        p #[strong Title: ]
+            a(href="/catalog/book/" + book._id) #{book.title}
+        p #[strong Author: ]
+            a(href="/catalog/author/" + book.author._id) #{book.author.name}
+        p #[strong Summary: ]#{book.summary}
+        hr
